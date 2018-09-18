@@ -1,18 +1,46 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Loader v-if="loading"/>
+  <div
+    v-else
+    class="home">
+    <Categories/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Categories from '../components/Categories.vue';
+import Loader from '../components/Loader.vue';
 
 export default {
-  name: "home",
+  name: 'Home',
   components: {
-    HelloWorld
-  }
+    Categories,
+    Loader,
+  },
+  data() {
+    return {
+      loading: false,
+    };
+  },
+  created() {
+    this.fetchCategories();
+  },
+  methods: {
+    fetchCategories() {
+      this.loading = true;
+      this.$store.dispatch('fetchCategories')
+        .then(() => {
+          this.loading = false;
+        });
+    },
+  },
 };
 </script>
+
+<style scoped lang="scss">
+  .home {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

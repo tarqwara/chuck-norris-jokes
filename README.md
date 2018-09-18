@@ -1,4 +1,4 @@
-# chuck-norris-jokes
+# Chuck Norris Jokes
 
 ## Project setup
 ```
