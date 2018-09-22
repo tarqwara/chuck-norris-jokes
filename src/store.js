@@ -20,18 +20,15 @@ export default new Vuex.Store({
     setCategories(state, categories) {
       state.categories = categories;
     },
-    addUniqueJokes(state, { category, jokes }) {
-      // state.jokes[category] = state.jokes[category] || [];
-      // jokes.forEach((joke) => {
-      //   const jokeExists = state.jokes[category].some(j => j.id === joke.id);
-      //   if (!jokeExists) {
-      //     state.jokes[category].push(joke);
-      //   }
-      // });
-      state.jokes[category] = [
-        ...(state.jokes[category] || []),
-        ...jokes,
-      ];
+    addJokes(state, { category, jokes }) {
+      if (!state.jokes[category]) {
+        Vue.set(state.jokes, category, []);
+      }
+
+      jokes.forEach((joke) => {
+        Vue.set(joke, 'favorited', false);
+        state.jokes[category].push(joke);
+      });
     },
   },
   actions: {
@@ -39,7 +36,7 @@ export default new Vuex.Store({
       commit('setCategories', await fetchCategories());
     },
     async fetchUniqueJokes({ commit }, { category, neededAmount, attempts }) {
-      commit('addUniqueJokes', {
+      commit('addJokes', {
         category,
         jokes: await fetchUniqueJokes(category, neededAmount, attempts),
       });

@@ -5,20 +5,29 @@
       type="button"
       class="selected-category"
       @click="showCategories">
-      {{ selectedCategory }}
+      <Category :category="selectedCategory"/>
     </button>
     <Loader v-if="loading"/>
     <div
       v-for="joke in jokes"
       v-else
       :key="joke.id"
-      class="card">
-      {{ joke.value }}
+      class="joke">
+      <span class="text">
+        {{ joke.value }}
+      </span>
+      <fa-icon
+        :icon="['fas', 'heart']"
+        :class="{favorited: joke.favorited}"
+        size="lg"
+        @click="toggleFavorite(joke)"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import Category from '../components/Category.vue';
 import Loader from '../components/Loader.vue';
 
 const NEEDED_AMOUNT_OF_JOKES = 3;
@@ -27,6 +36,7 @@ const MAX_ATTEMPTS = 10;
 export default {
   name: 'Jokes',
   components: {
+    Category,
     Loader,
   },
   data() {
@@ -71,36 +81,34 @@ export default {
     showCategories() {
       this.$store.commit('showCategories');
     },
+    toggleFavorite(joke) {
+      joke.favorited = !joke.favorited;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
   @import '../styles/variables';
+  @import '../styles/zindex';
 
   .jokes {
+    z-index: $jokesZindex;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 30px 10px;
 
     .selected-category {
-      display: flex;
-      padding: 15px;
-      color: white;
-      text-transform: uppercase;
-      font-weight: 700;
-      background-color: $primary;
+      padding: 0;
       border-radius: 4px;
       cursor: pointer;
-      transition: background-color .3s ease-in-out;
-
-      &:hover {
-        background-color: darken($primary, 20%);
-      }
     }
 
-    .card {
+    .joke {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       max-width: 600px;
       width: 100%;
       margin: 10px;
@@ -111,6 +119,23 @@ export default {
         0 3px 1px -2px rgba(0,0,0,.2),
         0 2px 2px 0 rgba(0,0,0,.14),
         0 1px 5px 0 rgba(0,0,0,.12);
+
+      .fa-heart {
+        $base-color: red;
+
+        margin-left: 10px;
+        color: lighten($base-color, 40%);
+        transition: color .3s ease-in-out;
+
+        &.favorited {
+          color: $base-color;
+        }
+
+        &:hover {
+          cursor: pointer;
+          color: lighten($base-color, 20%);
+        }
+      }
     }
   }
 </style>

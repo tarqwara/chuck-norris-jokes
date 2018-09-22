@@ -14,10 +14,7 @@ module.exports = {
     'no-param-reassign': [
       'error',
       {
-        props: true,
-        ignorePropertyModificationsFor: [
-          'state',
-        ],
+        props: false,
       },
     ],
     'vue/html-self-closing': ['error', {

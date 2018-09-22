@@ -8,14 +8,19 @@
       :to="{ name: 'jokes', params: { category }}"
       active-class="active"
       @click.native="hideCategories()">
-      {{ category }}
+      <Category :category="category"/>
     </router-link>
   </div>
 </template>
 
 <script>
+import Category from '../components/Category.vue';
+
 export default {
   name: 'Categories',
+  components: {
+    Category,
+  },
   computed: {
     categories() {
       return this.$store.getters.sortedCategories;
@@ -39,8 +44,10 @@ export default {
 
 <style scoped lang="scss">
   @import '../styles/variables';
+  @import '../styles/zindex';
 
   .categories {
+    z-index: $categoriesZindex;
     display: flex;
     flex-direction: column;
     height : 100vh;
@@ -55,23 +62,21 @@ export default {
     }
 
     a {
-      background-color: $primary;
-      color: white;
-      text-transform: uppercase;
-      font-weight: 700;
-      transition: background-color .5s;
       display: flex;
-      flex-basis: 0;
-      flex-grow: 1;
       align-items: center;
       justify-content: center;
+      flex-basis: 0;
+      flex-grow: 1;
 
-      &.active {
-        background-color: darken($primary, 10%);
+      .category {
+        width: 100%;
+        height: 100%;
       }
 
-      &:hover {
-        background-color: darken($primary, 20%);
+      &.active {
+        .category {
+          background-color: darken($primary, 10%);
+        }
       }
     }
   }
