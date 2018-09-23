@@ -76,6 +76,10 @@ export default {
       &.active {
         .category {
           background-color: darken($primary, 10%);
+
+          &:hover {
+            background-color: darken($primary, 20%);
+          }
         }
       }
     }

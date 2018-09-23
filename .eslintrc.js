@@ -18,14 +18,14 @@ module.exports = {
       },
     ],
     'vue/html-self-closing': ['error', {
-      'html': {
-        'void': 'never',
-        'normal': 'never',
-        'component': 'always'
+      html: {
+        void: 'never',
+        normal: 'never',
+        component: 'always',
       },
-      'svg': 'always',
-      'math': 'always'
-    }]
+      svg: 'always',
+      math: 'always',
+    }],
   },
   parserOptions: {
     parser: 'babel-eslint',

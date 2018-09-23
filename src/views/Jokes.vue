@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="selectedCategory"
     class="jokes">
     <button
       type="button"
@@ -92,6 +93,10 @@ export default {
   @import '../styles/variables';
   @import '../styles/zindex';
 
+  %borderRadius {
+    border-radius: 10px;
+  }
+
   .jokes {
     z-index: $jokesZindex;
     display: flex;
@@ -101,8 +106,13 @@ export default {
 
     .selected-category {
       padding: 0;
-      border-radius: 4px;
       cursor: pointer;
+      border: none;
+      @extend %borderRadius;
+
+      .category {
+        @extend %borderRadius;
+      }
     }
 
     .joke {
@@ -114,7 +124,7 @@ export default {
       margin: 10px;
       padding: 20px;
       background-color: white;
-      border-radius: 2px;
+      @extend %borderRadius;
       box-shadow:
         0 3px 1px -2px rgba(0,0,0,.2),
         0 2px 2px 0 rgba(0,0,0,.14),
