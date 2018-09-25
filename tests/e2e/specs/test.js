@@ -1,8 +1,12 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
+describe('Chuck Norris Jokes', () => {
+  it('should open jokes view when category is clicked', () => {
     cy.visit('/');
-    cy.contains('h1', 'Welcome to Your Vue.js App');
+    cy.get('.category').contains('movie').click();
+
+    cy.url().should('include', '/movie');
+    cy.get('.selected-category').should('contain', 'movie');
+    cy.get('.joke').should('exist');
   });
 });
