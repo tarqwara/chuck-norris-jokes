@@ -45,5 +45,9 @@ export default new Vuex.Store({
   getters: {
     sortedCategories: state => state.categories.sort(),
     jokesByCategory: ({ jokes }) => category => jokes[category] || [],
+    favoriteJokesCount: (state, getters) => category =>
+      getters.jokesByCategory(category)
+        .filter(joke => joke.favorited)
+        .length,
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <span>
+    <span class="name">
       {{ category }}
     </span>
     <fa-layers
@@ -29,10 +29,7 @@ export default {
   },
   computed: {
     favoriteJokesCount() {
-      return this.$store.getters
-        .jokesByCategory(this.category)
-        .filter(joke => joke.favorited)
-        .length;
+      return this.$store.getters.favoriteJokesCount(this.category);
     },
   },
 };

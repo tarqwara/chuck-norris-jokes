@@ -17,12 +17,15 @@
       <span class="text">
         {{ joke.value }}
       </span>
-      <fa-icon
-        :icon="['fas', 'heart']"
-        :class="{favorited: joke.favorited}"
-        size="lg"
-        @click="toggleFavorite(joke)"
-      />
+      <span
+        class="favorite-icon"
+        @click="toggleFavorite(joke)">
+        <fa-icon
+          :icon="['fas', 'heart']"
+          :class="{favorited: joke.favorited}"
+          size="lg"
+        />
+      </span>
     </div>
   </div>
 </template>
@@ -60,7 +63,7 @@ export default {
     this.fetchUniqueJokes();
   },
   methods: {
-    fetchUniqueJokes() {
+    async fetchUniqueJokes() {
       if (!this.$store.state.categories.includes(this.selectedCategory)) {
         this.$router.push({ name: 'home' });
         return;
@@ -71,13 +74,12 @@ export default {
       }
 
       this.loading = true;
-      this.$store.dispatch('fetchUniqueJokes', {
+      await this.$store.dispatch('fetchUniqueJokes', {
         category: this.selectedCategory,
         neededAmount: NEEDED_AMOUNT_OF_JOKES,
         attempts: MAX_ATTEMPTS,
-      }).then(() => {
-        this.loading = false;
       });
+      this.loading = false;
     },
     showCategories() {
       this.$store.commit('showCategories');

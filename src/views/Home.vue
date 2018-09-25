@@ -20,19 +20,16 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
     };
   },
   created() {
     this.fetchCategories();
   },
   methods: {
-    fetchCategories() {
-      this.loading = true;
-      this.$store.dispatch('fetchCategories')
-        .then(() => {
-          this.loading = false;
-        });
+    async fetchCategories() {
+      await this.$store.dispatch('fetchCategories');
+      this.loading = false;
     },
   },
 };

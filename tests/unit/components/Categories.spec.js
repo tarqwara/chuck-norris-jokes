@@ -1,32 +1,29 @@
-import { shallowMount, createLocalVue, RouterLinkStub } from '@vue/test-utils';
-import { expect, spy, use } from 'chai';
-import spies from 'chai-spies';
+import { createLocalVue, shallowMount, RouterLinkStub } from '@vue/test-utils';
+import { expect, use } from 'chai';
+import { spy } from 'sinon';
+import sinonChai from 'sinon-chai';
 import Vuex from 'vuex';
 import Categories from '@/components/Categories.vue';
 import Category from '@/components/Category.vue';
 
-use(spies);
+use(sinonChai);
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
 
 describe('Categories.vue', () => {
   let state;
-  let getters;
   let mutations;
+  let getters;
   let store;
   let $route;
 
   const factory = () => {
     store = new Vuex.Store({
       state,
-      getters,
       mutations,
+      getters,
     });
-    $route = {
-      params: {},
-    };
 
     return shallowMount(Categories, {
       localVue,
@@ -44,6 +41,10 @@ describe('Categories.vue', () => {
     state = {
       categoriesVisible: true,
     };
+    mutations = {
+      showCategories: spy(),
+      hideCategories: spy(),
+    };
     getters = {
       sortedCategories: () => [
         'Celebrity',
@@ -51,9 +52,8 @@ describe('Categories.vue', () => {
         'Sport',
       ],
     };
-    mutations = {
-      showCategories: spy(),
-      hideCategories: spy(),
+    $route = {
+      params: {},
     };
   });
 
