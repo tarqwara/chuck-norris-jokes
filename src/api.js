@@ -1,12 +1,16 @@
+import axios from 'axios';
+
 const API_URL = 'https://api.chucknorris.io/jokes';
 
-export const fetchCategories = () =>
-  fetch(`${API_URL}/categories`)
-    .then(response => response.json());
+export const fetchCategories = async () => {
+  const response = await axios.get(`${API_URL}/categories`);
+  return response.data;
+};
 
-const fetchJoke = category =>
-  fetch(`${API_URL}/random?category=${category}`)
-    .then(response => response.json());
+const fetchJoke = async (category) => {
+  const response = await axios.get(`${API_URL}/random?category=${category}`);
+  return response.data;
+};
 
 /**
  * Fetches unique jokes from API.
